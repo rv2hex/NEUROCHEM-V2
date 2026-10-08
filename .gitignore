@@ -1,0 +1,14 @@
+# Runtime noise — never commit.
+node_modules/
+.sessions/
+*.log
+npm-debug.log*
+
+# Secrets — keys live in the environment, never in files.
+.env
+.env.*
+
+# Personal soul copies (the shipped SOUL.md stays pristine).
+SOUL.new.md
+*-SOUL.md
+!SOUL.example.md

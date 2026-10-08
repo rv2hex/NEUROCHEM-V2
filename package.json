@@ -1,0 +1,29 @@
+{
+  "name": "nightcity-neurochem-v2",
+  "version": "2.0.0",
+  "description": "Clean-slate neurocomputational architecture: unified neurochem + energy + memory, continuous daemon, phrase-engine primary.",
+  "type": "module",
+  "main": "src/index.js",
+  "bin": {
+    "neurochem-v2": "src/cli/chat.js"
+  },
+  "scripts": {
+    "dev": "node src/cli/chat.js",
+    "ollama": "node src/cli/chat.js --ollama",
+    "soul": "node src/cli/make-soul.js",
+    "daemon": "node src/daemon/index.js",
+    "test": "node --test \"tests/**/*.test.js\""
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "keywords": [
+    "neurochemistry",
+    "computational-neuroscience",
+    "act-r",
+    "affective-computing",
+    "continuous-simulation"
+  ],
+  "author": "rv2",
+  "license": "MIT"
+}

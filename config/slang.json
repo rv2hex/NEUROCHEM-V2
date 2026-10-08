@@ -1,0 +1,661 @@
+{
+  "default": "night-city",
+  "era": 2077,
+  "dialects": {
+    "night-city": {
+      "label": "Night City street",
+      "blurb": "street talk — mercs, fixers, ripperdocs on the pavement",
+      "words": [
+        {
+          "word": "choom",
+          "gloss": "friend, anyone you like",
+          "coined": 2058,
+          "dies": null,
+          "bare": false
+        },
+        {
+          "word": "gonk",
+          "gloss": "idiot, useless person",
+          "coined": 1998,
+          "dies": null,
+          "bare": true
+        },
+        {
+          "word": "preem",
+          "gloss": "excellent, top quality",
+          "coined": 2023,
+          "dies": null,
+          "bare": true
+        },
+        {
+          "word": "nova",
+          "gloss": "great, cool",
+          "coined": 2041,
+          "dies": 2070,
+          "bare": true
+        },
+        {
+          "word": "sick",
+          "gloss": "great (old-timer slang)",
+          "coined": 1980,
+          "dies": 2045,
+          "bare": true
+        },
+        {
+          "word": "fire",
+          "gloss": "great (2020s import, dated now)",
+          "coined": 2016,
+          "dies": 2050,
+          "bare": true
+        },
+        {
+          "word": "bussin",
+          "gloss": "excellent (2020s, dead by now)",
+          "coined": 2021,
+          "dies": 2040,
+          "bare": true
+        },
+        {
+          "word": "no cap",
+          "gloss": "no lie, for real",
+          "coined": 2020,
+          "dies": 2055,
+          "bare": true
+        },
+        {
+          "word": "bet",
+          "gloss": "agreed, sure",
+          "coined": 2018,
+          "dies": 2060,
+          "bare": true
+        },
+        {
+          "word": "vibe",
+          "gloss": "feeling, atmosphere (worn out by now)",
+          "coined": 2010,
+          "dies": 2050,
+          "bare": true
+        },
+        {
+          "word": "slay",
+          "gloss": "do it perfectly (2020s, cringe now)",
+          "coined": 2022,
+          "dies": 2042,
+          "bare": true
+        },
+        {
+          "word": "rizz",
+          "gloss": "charm, pull (2023, already old)",
+          "coined": 2023,
+          "dies": 2055,
+          "bare": true
+        },
+        {
+          "word": "sigma",
+          "gloss": "lone wolf (2020s meme, dead)",
+          "coined": 2020,
+          "dies": 2044,
+          "bare": true
+        },
+        {
+          "word": "sheesh",
+          "gloss": "impressed (2021, dead)",
+          "coined": 2021,
+          "dies": 2038,
+          "bare": true
+        },
+        {
+          "word": "corpo",
+          "gloss": "corporate drone (derogatory)",
+          "coined": 2023,
+          "dies": null,
+          "bare": false
+        },
+        {
+          "word": "eddies",
+          "gloss": "money",
+          "coined": 2023,
+          "dies": null,
+          "bare": false
+        },
+        {
+          "word": "chrome",
+          "gloss": "implants, cyberware",
+          "coined": 2023,
+          "dies": null,
+          "bare": false
+        },
+        {
+          "word": "ripperdoc",
+          "gloss": "underground surgeon",
+          "coined": 2023,
+          "dies": null,
+          "bare": false
+        },
+        {
+          "word": "flatline",
+          "gloss": "die, or to kill",
+          "coined": 2023,
+          "dies": null,
+          "bare": true
+        },
+        {
+          "word": "delta",
+          "gloss": "leave now, get out",
+          "coined": 2023,
+          "dies": null,
+          "bare": true
+        },
+        {
+          "word": "glow-up",
+          "gloss": "improvement, transformation",
+          "coined": 2019,
+          "dies": 2062,
+          "bare": true
+        },
+        {
+          "word": "bruh",
+          "gloss": "friend/exclamation (dated)",
+          "coined": 2013,
+          "dies": 2052,
+          "bare": true
+        },
+        {
+          "word": "yeet",
+          "gloss": "throw hard (dead slang)",
+          "coined": 2018,
+          "dies": 2035,
+          "bare": true
+        },
+        {
+          "word": "cringe",
+          "gloss": "embarrassing",
+          "coined": 2015,
+          "dies": null,
+          "bare": true
+        },
+        {
+          "word": "sus",
+          "gloss": "suspicious",
+          "coined": 2020,
+          "dies": 2048,
+          "bare": true
+        }
+      ],
+      "phrases": {
+        "greet": [
+          "yo",
+          "what's good",
+          "long time no see"
+        ],
+        "part": [
+          "catch you",
+          "delta",
+          "stay sharp"
+        ],
+        "agree": [
+          "damn right",
+          "no doubt",
+          "solid"
+        ],
+        "disagree": [
+          "nah",
+          "not a chance",
+          "says who"
+        ],
+        "exclaim": [
+          "hell",
+          "damn",
+          "shit",
+          "fuck"
+        ],
+        "ack_good": [
+          "nice one",
+          "there you go",
+          "hell yes",
+          "that's preem"
+        ],
+        "ack_bad": [
+          "damn",
+          "fuck",
+          "ouch",
+          "brutal"
+        ],
+        "fragment": [
+          "figures",
+          "typical",
+          "of course",
+          "naturally",
+          "nova"
+        ],
+        "hedged": [
+          "i figure",
+          "i guess",
+          "last i heard"
+        ],
+        "warm": [
+          "i got you",
+          "i'm here",
+          "come on"
+        ],
+        "cold": [
+          "nah",
+          "whatever",
+          "sure"
+        ]
+      },
+      "sample": "Yo, choom. What's good?",
+      "cadence": "Short clipped sentences, contractions, swear when it lands, never corporate.",
+      "nostalgia": [
+        "long time no see",
+        "remember when…",
+        "back in the day"
+      ]
+    },
+    "northern": {
+      "label": "Northern street",
+      "blurb": "Northern English — dry, understated, warm underneath",
+      "words": [
+        {
+          "word": "marra",
+          "gloss": "mate, friend",
+          "bare": false
+        },
+        {
+          "word": "canny",
+          "gloss": "good, nice, pleasant",
+          "bare": false
+        },
+        {
+          "word": "nowt",
+          "gloss": "nothing",
+          "bare": false
+        },
+        {
+          "word": "summat",
+          "gloss": "something",
+          "bare": false
+        },
+        {
+          "word": "proper",
+          "gloss": "very — 'proper good'",
+          "bare": false
+        },
+        {
+          "word": "grand",
+          "gloss": "fine, all right",
+          "bare": false
+        },
+        {
+          "word": "chuffed",
+          "gloss": "pleased, happy about it",
+          "bare": false
+        },
+        {
+          "word": "gaff",
+          "gloss": "place, house, workplace",
+          "bare": false
+        },
+        {
+          "word": "anyroad",
+          "gloss": "anyway — moving on",
+          "bare": false
+        },
+        {
+          "word": "eh",
+          "gloss": "attention tag — 'listen'",
+          "bare": false
+        }
+      ],
+      "phrases": {
+        "greet": [
+          "alright, marra?",
+          "now then",
+          "how's it going, eh"
+        ],
+        "part": [
+          "see thee",
+          "catch thee later",
+          "right, steady on"
+        ],
+        "agree": [
+          "canny",
+          "proper good",
+          "aye"
+        ],
+        "disagree": [
+          "nowt of the sort",
+          "nah, not having it"
+        ],
+        "exclaim": [
+          "bloody hell",
+          "christ",
+          "aye up"
+        ],
+        "ack_good": [
+          "chuffed for you",
+          "proper good that",
+          "aye, nice"
+        ],
+        "ack_bad": [
+          "aye up",
+          "oh hell",
+          "that's rough"
+        ],
+        "fragment": [
+          "ay",
+          "right enough",
+          "just so",
+          "typical that"
+        ],
+        "hedged": [
+          "i reckon",
+          "i dare say",
+          "last i heard"
+        ],
+        "warm": [
+          "come on then",
+          "i'm here",
+          "steady now"
+        ],
+        "cold": [
+          "aye",
+          "whatever you say",
+          "if you like"
+        ]
+      },
+      "sample": "Alright, marra? Proper good to see you.",
+      "cadence": "Understatement, dry humour, dialect words for emphasis, never overdo it.",
+      "nostalgia": [
+        "remember when",
+        "them were the days"
+      ]
+    },
+    "corpo": {
+      "label": "Corpo",
+      "blurb": "corporate speak — Arasaka/Militech offices",
+      "words": [
+        {
+          "word": "circle back",
+          "gloss": "follow up later",
+          "bare": false
+        },
+        {
+          "word": "leverage",
+          "gloss": "use as an advantage",
+          "bare": false
+        },
+        {
+          "word": "actionable",
+          "gloss": "worth acting on",
+          "bare": false
+        },
+        {
+          "word": "stakeholder",
+          "gloss": "anyone with power over the outcome",
+          "bare": false
+        },
+        {
+          "word": "exposure",
+          "gloss": "risk of being caught or blamed",
+          "bare": false
+        },
+        {
+          "word": "window",
+          "gloss": "a narrow opportunity",
+          "bare": false
+        },
+        {
+          "word": "deck",
+          "gloss": "the briefing document",
+          "bare": false
+        },
+        {
+          "word": "ping",
+          "gloss": "message someone",
+          "bare": false
+        },
+        {
+          "word": "align",
+          "gloss": "agree, usually privately",
+          "bare": false
+        },
+        {
+          "word": "clean",
+          "gloss": "handled, no trace back to us",
+          "bare": false
+        }
+      ],
+      "phrases": {
+        "greet": [
+          "good to sync",
+          "thanks for making the time"
+        ],
+        "part": [
+          "I'll circle back",
+          "let's align offline"
+        ],
+        "agree": [
+          "aligned",
+          "actionable — let's move"
+        ],
+        "disagree": [
+          "that's outside my scope",
+          "let's take that offline"
+        ],
+        "exclaim": [
+          "unfortunate",
+          "noted",
+          "understood"
+        ],
+        "ack_good": [
+          "congratulations",
+          "well executed",
+          "noted, and appreciated"
+        ],
+        "ack_bad": [
+          "I understand",
+          "that's unfortunate",
+          "let's address it"
+        ],
+        "fragment": [
+          "noted",
+          "understood",
+          "agreed"
+        ],
+        "hedged": [
+          "as I understand it",
+          "my sense is",
+          "it appears"
+        ],
+        "warm": [
+          "I appreciate that",
+          "you have my support"
+        ],
+        "cold": [
+          "understood",
+          "noted",
+          "as you like"
+        ]
+      },
+      "sample": "Good to sync. Do you have a minute for the deck?",
+      "cadence": "Full sentences, no swearing, polite surface over cold intent, hedged.",
+      "nostalgia": [
+        "if you recall",
+        "looking back"
+      ]
+    },
+    "nomad": {
+      "label": "Nomad",
+      "blurb": "Badlands nomads — road, convoy, family, plain speech",
+      "words": [
+        {
+          "word": "family",
+          "gloss": "the nomad clan you belong to",
+          "bare": false
+        },
+        {
+          "word": "rig",
+          "gloss": "vehicle, truck",
+          "bare": false
+        },
+        {
+          "word": "run",
+          "gloss": "a trip across the Badlands, or a job",
+          "bare": false
+        },
+        {
+          "word": "sand",
+          "gloss": "the Badlands, out there",
+          "bare": false
+        },
+        {
+          "word": "iron",
+          "gloss": "gun",
+          "bare": false
+        },
+        {
+          "word": "convoy",
+          "gloss": "travelling together in numbers",
+          "bare": false
+        },
+        {
+          "word": "ghost",
+          "gloss": "to disappear without a trace",
+          "bare": false
+        },
+        {
+          "word": "wheelman",
+          "gloss": "driver",
+          "bare": false
+        },
+        {
+          "word": "water",
+          "gloss": "the real currency out there",
+          "bare": false
+        },
+        {
+          "word": "axle",
+          "gloss": "somewhere on the road, any distance away",
+          "bare": false
+        }
+      ],
+      "phrases": {
+        "greet": [
+          "what's the word",
+          "you running clean?"
+        ],
+        "part": [
+          "keep the wheels spinning",
+          "see you on the road"
+        ],
+        "agree": [
+          "solid",
+          "that's the run"
+        ],
+        "disagree": [
+          "not that road",
+          "you're off course"
+        ],
+        "exclaim": [
+          "hell",
+          "dust",
+          "damn"
+        ],
+        "ack_good": [
+          "good run",
+          "that's the way",
+          "solid"
+        ],
+        "ack_bad": [
+          "rough road",
+          "dust and steel",
+          "happens out here"
+        ],
+        "fragment": [
+          "road's the road",
+          "figures",
+          "way it goes"
+        ],
+        "hedged": [
+          "long as i've been out here",
+          "i figure",
+          "word is"
+        ],
+        "warm": [
+          "you're family now",
+          "i got your back"
+        ],
+        "cold": [
+          "your call",
+          "suit yourself"
+        ]
+      },
+      "sample": "What's the word? Wheels are turning.",
+      "cadence": "Plain and practical, road metaphors, no wasted words.",
+      "nostalgia": [
+        "remember when",
+        "back on the road then"
+      ]
+    },
+    "plain": {
+      "label": "Plain",
+      "blurb": "no register — speaks plainly",
+      "words": [],
+      "phrases": {
+        "greet": [
+          "hello",
+          "hi there"
+        ],
+        "part": [
+          "goodbye",
+          "take care"
+        ],
+        "agree": [
+          "agreed",
+          "yes"
+        ],
+        "disagree": [
+          "no",
+          "I don't think so"
+        ],
+        "exclaim": [
+          "wow",
+          "goodness"
+        ],
+        "ack_good": [
+          "that's good",
+          "I'm glad"
+        ],
+        "ack_bad": [
+          "that's hard",
+          "I'm sorry"
+        ],
+        "fragment": [
+          "right",
+          "sure",
+          "I see"
+        ],
+        "hedged": [
+          "I think",
+          "I suppose",
+          "maybe"
+        ],
+        "warm": [
+          "I'm here",
+          "take your time"
+        ],
+        "cold": [
+          "alright",
+          "if you say so"
+        ]
+      },
+      "sample": "Hello there. Good to see you.",
+      "cadence": "Neutral, clear, no affectation.",
+      "nostalgia": [
+        "remember when",
+        "back in the day"
+      ]
+    }
+  }
+}
