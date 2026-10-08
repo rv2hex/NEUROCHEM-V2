@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400" width="100%" style="background-color: #0a0203;">
+<defs>
+<filter id="nc-red-glow" x="-50%" y="-50%" width="200%" height="200%">
+<feGaussianBlur stdDeviation="2.5" result="blur1"/>
+<feGaussianBlur stdDeviation="6" result="blur2"/>
+<feGaussianBlur stdDeviation="12" result="blur3"/>
+<feMerge><feMergeNode in="blur3"/><feMergeNode in="blur2"/><feMergeNode in="blur1"/><feMergeNode in="SourceGraphic"/></feMerge>
+</filter>
+<filter id="nc-gold-glow" x="-50%" y="-50%" width="200%" height="200%">
+<feGaussianBlur stdDeviation="2" result="blur1"/>
+<feGaussianBlur stdDeviation="7" result="blur2"/>
+<feMerge><feMergeNode in="blur2"/><feMergeNode in="blur1"/><feMergeNode in="SourceGraphic"/></feMerge>
+</filter>
+<radialGradient id="nc-bg" cx="50%" cy="55%" r="75%">
+<stop offset="0%" stop-color="#3d0a02" stop-opacity="0.85"/>
+<stop offset="50%" stop-color="#160404" stop-opacity="0.95"/>
+<stop offset="100%" stop-color="#0a0203" stop-opacity="1"/>
+</radialGradient>
+<pattern id="nc-grid" width="40" height="40" patternUnits="userSpaceOnUse">
+<path d="M 40 0 L 0 0 0 40" fill="none" stroke="#ff2a1a" stroke-width="0.4" opacity="0.08"/>
+</pattern>
+<pattern id="nc-scan" width="100" height="3" patternUnits="userSpaceOnUse">
+<line x1="0" y1="0" x2="100" y2="0" stroke="#000000" stroke-width="1" opacity="0.4"/>
+</pattern>
+<style>
+@keyframes nc-fall-a { 0% { transform: translateY(-320px); } 100% { transform: translateY(560px); } }
+@keyframes nc-fall-b { 0% { transform: translateY(-420px); } 100% { transform: translateY(680px); } }
+@keyframes nc-pulse { 0%,100% { stroke-opacity: 0.55; } 50% { stroke-opacity: 1; } }
+@keyframes nc-flicker { 0%,100% { opacity: 1; } 92% { opacity: 1; } 93% { opacity: 0.4; } 94% { opacity: 1; } 97% { opacity: 0.7; } 98% { opacity: 1; } }
+.nc-rain { font-family: 'Courier New', Consolas, monospace; text-anchor: middle; fill: #ff2a1a; }
+.nc-layer-a { animation: nc-fall-a linear infinite; }
+.nc-layer-b { animation: nc-fall-b linear infinite; }
+.nc-frame { animation: nc-pulse 2.4s ease-in-out infinite; }
+.nc-title { animation: nc-flicker 6s linear infinite; }
+</style>
+</defs>
+<rect width="1200" height="400" fill="url(#nc-bg)"/>
+<rect width="1200" height="400" fill="url(#nc-grid)"/>
+<g class="nc-rain" font-size="15" opacity="0.5">
+<text x="80" y="0" class="nc-layer-a" style="animation-duration: 9s;">サムライネットランナー</text>
+<text x="240" y="0" class="nc-layer-b" style="animation-duration: 13s;">アラサカミコシソウルキラー</text>
+<text x="400" y="0" class="nc-layer-a" style="animation-duration: 11s;">ドーパミンセロトニン</text>
+<text x="800" y="0" class="nc-layer-a" style="animation-duration: 10s;">レリックゴーストノ街</text>
+<text x="960" y="0" class="nc-layer-b" style="animation-duration: 14s;"> Samurai WakeTheFuckUp </text>
+<text x="1120" y="0" class="nc-layer-a" style="animation-duration: 12s;">2077チョー厶</text>
+</g>
+<rect x="14" y="14" width="1172" height="372" fill="none" stroke="#ff2a1a" stroke-width="2" class="nc-frame"/>
+<rect x="22" y="22" width="1156" height="356" fill="none" stroke="#ffb300" stroke-width="0.8" opacity="0.5"/>
+<text x="600" y="168" text-anchor="middle" font-family="'Courier New', Consolas, monospace" font-size="92" font-weight="bold" fill="#ff2a1a" filter="url(#nc-red-glow)" class="nc-title">NEUROCHEM-V2</text>
+<text x="600" y="222" text-anchor="middle" font-family="'Courier New', Consolas, monospace" font-size="30" fill="#ffb300" filter="url(#nc-gold-glow)">JOHNNY SILVERHAND &#183; COMPUTATIONAL NEUROCHEMISTRY</text>
+<text x="600" y="268" text-anchor="middle" font-family="'Courier New', Consolas, monospace" font-size="20" fill="#ff6a5e" opacity="0.9">12 TRANSMITTERS &#183; ATP ECONOMY &#183; 4-MODE MEMORY &#183; ZERO DEPS</text>
+<text x="600" y="330" text-anchor="middle" font-family="'Courier New', Consolas, monospace" font-size="17" fill="#8a8a8a">npm run dev &#8212; wake the fuck up, samurai</text>
+<rect width="1200" height="400" fill="url(#nc-scan)"/>
+</svg>

@@ -1,3 +1,7 @@
+<div align="center">
+  <img src="./banner.svg" alt="NEUROCHEM-V2 banner" width="100%" />
+</div>
+
 # Night City Neurochem V2
 
 A neurocomputational conversation agent: 12 neurotransmitter systems, an ATP
@@ -60,3 +64,44 @@ node --experimental-test-coverage --test tests/   # coverage (target >80% lines)
 Live-model tests (`ollama.test.js`, `nvidia.test.js`) run for real when the
 endpoint/key is present, otherwise skip. They cost minutes; the rest of the
 suite runs in seconds.
+
+## Verification
+
+- `node --experimental-test-coverage --test tests/` — 96%+ lines, 84%+ branches.
+- `hermes verify --skip-start` — **PASS** (bootstrap + full test phase).
+- Live turns verified against `qwen2.5:1.5b` (local) and
+  `nvidia/nemotron-3-super-120b-a12b` (NVIDIA NIM), including multi-turn
+  memory, repair-loop, and soul-persistence probes.
+
+## Strengths and limitations
+
+Written like a discussion section, because that is what it is.
+
+**Strengths.** The neurochemistry is a real dynamical system, not prompt
+flavor text: 12 coupled transmitter compartments integrated per tick, read
+out on a Weber–Fechner tone scale, with receptor-density tolerance and
+sleep-driven homeostasis. Energy is a genuine currency — cognition spends
+ATP, so fatigue degrades behavior instead of being roleplayed. Memory is a
+single append-only log with four derived indices plus verbatim specs, all
+serializable, so sessions survive restarts and personas travel in one
+`SOUL.md`. The validator-plus-repair loop demonstrably converts model
+failures (echoes, grunts, unprompted farewells, evasions) into passing
+replies instead of dropping to fallbacks. Zero dependencies; the whole
+thing runs anywhere Node 20+ runs.
+
+**Limitations.** Appraisal is keyword heuristics, not understanding —
+sarcasm, negation scope, and implication sail past it. The production
+system ships nearly empty (two seeded rules); real cognitive breadth needs
+authored tables. Nothing learns in weights — the "adapter log" is training
+*data*, not training. Reasoning models take 8–60 seconds per turn, and the
+3-attempt repair loop multiplies the worst case. Prompts grow with history
+(~1.6–2k tokens/turn), so long sessions cost accordingly. Single user,
+single persona per process (`personId` defaults); multi-party chat would
+need routing that does not exist. Sleep, consolidation, and receptor
+homeostasis almost never trigger in short sessions, so those paths are
+tested but rarely lived. There is no human-subject evaluation and no
+controlled comparison against a bare LLM — quality claims rest on the
+behavioral suites plus live session transcripts. No safety filter beyond
+the output contract: persona, model choice, and deployment context are the
+operator's responsibility. Best quality currently depends on a hosted
+endpoint (NVIDIA NIM free keys expire).
