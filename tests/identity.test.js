@@ -62,13 +62,14 @@ test("identity: a cooperating model answers with the name and passes clean", asy
   assert.match(r.reply, /test_hex/);
 });
 
-test("identity: no name learned means no name in the prompt", async () => {
+test("identity: the soul-given listener is known from turn one, nothing invented", async () => {
   const conv = converse();
   const sent = [];
   const engine = { chat: async (msgs) => { sent.push(msgs); return "Okay. Noted that down."; } };
   await conv.converse("hello there friend", { engine });
   const user = sent.at(-1).find((m) => m.role === "user").content;
-  assert.ok(!user.includes("their name:"), "nothing invented");
+  assert.match(user, /their name: V/, "soul says the listener is V");
+  assert.ok(!user.includes("their name: test_hex"), "no unclaimed name appears");
 });
 
 test("identity: a newer claim overwrites, and survives serialization", async () => {
@@ -357,4 +358,34 @@ test("farewell: an unprompted goodbye repairs instead of passing", async () => {
   assert.equal(r.source, "llm-repaired");
   const repair = sent[1].filter((m) => m.role === "user").at(-1).content;
   assert.match(repair, /only when THEY are leaving/);
+});
+
+test("persona: the contract speaks as Johnny to V, never Chole-era lines", async () => {
+  const conv = converse();
+  const sent = [];
+  const engine = { chat: async (msgs) => { sent.push(msgs); return "Okay. Noted that down."; } };
+  await conv.converse("hey there friend", { engine });
+  const system = sent.at(-1).find((m) => m.role === "system").content;
+  assert.match(system, /You are Johnny Silverhand/, "persona in contract");
+  assert.match(system, /You call them V/, "listener in contract");
+  assert.ok(!system.includes("Chole"), "no Chole-era wording anywhere");
+  assert.ok(system.includes("You are Johnny Silverhand; they are not you."), "identity line");
+});
+
+test("persona: self-naming the listener repairs with Johnny-aware guidance", async () => {
+  const conv = converse();
+  const sent = [];
+  let n = 0;
+  const engine = {
+    chat: async (msgs) => {
+      sent.push(msgs);
+      return n++ === 0 ? "Hey Johnny, what's good?" : "V, listen up a second.";
+    },
+  };
+  const r = await conv.converse("hello there friend", { engine });
+  assert.equal(r.source, "llm-repaired");
+  assert.ok(r.rejected[0].problems.includes("used your name for them"), JSON.stringify(r.rejected));
+  const repair = sent[1].filter((m) => m.role === "user").at(-1).content;
+  assert.match(repair, /never use your own name/, "guidance names the fix");
+  assert.match(repair, /Johnny Silverhand/, "guidance names the persona");
 });

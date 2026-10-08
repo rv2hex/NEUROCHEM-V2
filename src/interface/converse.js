@@ -42,37 +42,47 @@ export function createConversation(config = {}) {
   const trainingLog = [];
 
   // ---- Instruction: what the LLM must respect ----
-  const OUTPUT_CONTRACT = [
-    "You write ONE reply — 1-3 sentences, plain text, no quotes, no actions.",
-    "A SKELETON is given: frame + slot words + your accent. Pick ONE skeleton and",
-    "write it out as natural speech in your accent — fill the words into real sentences.",
-    "You may swap a slot word if it doesn't fit, but keep the frame's structure and intent.",
-    "The skeleton words carry your neurochemistry and accent. Do not invent a different style.",
-    "A skeleton may also show: carry-over (optional) — the subject still in play",
-    "from what you discussed before. OPTIONAL: weave it in if it lands naturally,",
-    "otherwise ignore it completely. Never force it into the reply.",
-    "Never restate their words back — not from this line, not from earlier ones. Never repeat yourself.",
-    "If you agree, say it in your OWN words — never repeat their exact phrase.",
-    "If they shared news or feelings: acknowledge first, then ask back.",
-    "If they asked a question: answer directly, then stop.",
-    "Never say goodbye unless THEY are leaving.",
-    "",
-    "This output IS the reply — never a description of it. No labels, no JSON,",
-    "no notes on how to speak, no stage directions, no third person.",
-    "Never open with an instruction (\"Acknowledge...\", \"Start by...\") — just say it.",
-    "Answer THEIR LINE. If the history is about something else, drop it.",
-    "The prompt's labels (they said / them / you / memories) and the skeleton",
-    "block are scaffolding — never echo them, never write them back, never nest",
-    "them inside each other. Write speech, not a copy of the prompt.",
-    "You are Chole; they are not you.",
-    "Never call them Chole — that is YOUR name, not theirs.",
-    "KNOWN FACTS names them if you have learned it — use their name sometimes,",
-    "never as a greeting opener, never for anyone else, and never invent one.",
-    "A recall line is something said before, in THEIR words — use it only to",
-    "stay consistent, in your own words. Never quote it back.",
-    "Never answer with a grunt — one full sentence minimum (greetings excepted).",
-  ].join("\n");
-
+  // Built per voice: the persona name and the listener's name ride the
+  // contract so a new soul (Johnny/V) never hears Chole-era wording.
+  function buildContract() {
+    const A = daemon.phrase.voice?.name || "stranger";
+    const L = daemon.phrase.voice?.listener;
+    return [
+      "You write ONE reply — 1-3 sentences, plain text, no quotes, no actions.",
+      "A SKELETON is given: frame + slot words + your accent. Pick ONE skeleton and",
+      "write it out as natural speech in your accent — fill the words into real sentences.",
+      "You may swap a slot word if it doesn't fit, but keep the frame's structure and intent.",
+      "The skeleton words carry your neurochemistry and accent. Do not invent a different style.",
+      "A skeleton may also show: carry-over (optional) — the subject still in play",
+      "from what you discussed before. OPTIONAL: weave it in if it lands naturally,",
+      "otherwise ignore it completely. Never force it into the reply.",
+      "Never restate their words back — not from this line, not from earlier ones. Never repeat yourself.",
+      "If you agree, say it in your OWN words — never repeat their exact phrase.",
+      "If they shared news or feelings: acknowledge first, then ask back.",
+      "If they asked a question: answer directly, then stop.",
+      "Never say goodbye unless THEY are leaving.",
+      "",
+      "This output IS the reply — never a description of it. No labels, no JSON,",
+      "no notes on how to speak, no stage directions, no third person.",
+      "Never open with an instruction (\"Acknowledge...\", \"Start by...\") — just say it.",
+      "Answer THEIR LINE. If the history is about something else, drop it.",
+      "The prompt's labels (they said / them / you / memories) and the skeleton",
+      "block are scaffolding — never echo them, never write them back, never nest",
+      "them inside each other. Write speech, not a copy of the prompt.",
+      `You are ${A}; they are not you.`,
+      `Never call them ${A} — that is YOUR name, not theirs.`,
+      ...(L
+        ? [
+            `You call them ${L} — that name is given. Use it sometimes, never as a greeting opener, never invent another.`,
+          ]
+        : [`You do not know their name. Never invent one for them either.`]),
+      "KNOWN FACTS names them if you have learned it — use their name sometimes,",
+      "never as a greeting opener, never for anyone else, and never invent one.",
+      "A recall line is something said before, in THEIR words — use it only to",
+      "stay consistent, in your own words. Never quote it back.",
+      "Never answer with a grunt — one full sentence minimum (greetings excepted).",
+    ].join("\n");
+  }
   /**
    * One turn.
    * @param {string} text user line
@@ -126,7 +136,8 @@ export function createConversation(config = {}) {
         }
       }
     }
-    const knownName = claimedName || daemon.memory.retrieveSocial(personId)?.name || null;
+    const claimedFallback = daemon.memory.retrieveSocial(personId)?.name || null;
+    const knownName = claimedName || claimedFallback || daemon.phrase.voice?.listener || null;
 
     // 2. Run a few ticks so appraisal lands
     daemon.tickFor(3);
@@ -244,7 +255,7 @@ export function createConversation(config = {}) {
                 {
                   role: "user",
                   content:
-                    `That reply was rejected. ${problems.map((r) => repairGuidance(r, { userText: raw, historyUsers: seenUsers, reply: lastOut, knownName })).join(". ")}. ` +
+                    `That reply was rejected. ${problems.map((r) => repairGuidance(r, { userText: raw, historyUsers: seenUsers, reply: lastOut, knownName, personaName: daemon.phrase.voice?.name })).join(". ")}. ` +
                     (codeMode
                       ? `Output the artifact in ONE fenced \`\`\` block, then at most one spoken line. Use recalled tokens exactly as remembered.`
                       : `Write ONE reply — 1-3 sentences, plain text, starting mid-thought like speech. ` +
@@ -271,7 +282,8 @@ export function createConversation(config = {}) {
         // move + terse arm the grunt rule (single-word answers to real
         // questions get repaired into sentences instead of passing), and
         // codeMode swaps the validator into artifact rules (see validate).
-        const v = validateReply(out, { userText: raw, history: seen, historyUsers: seenUsers, move, terse: tendencies.terse, allowCode: codeMode });
+        // persona arms the vocative rule with the live soul's name.
+        const v = validateReply(out, { userText: raw, history: seen, historyUsers: seenUsers, move, terse: tendencies.terse, allowCode: codeMode, persona: daemon.phrase.voice?.name });
         if (v.ok) {
           reply = out;
           source = attempt === 0 ? "llm" : "llm-repaired";
@@ -411,7 +423,7 @@ export function createConversation(config = {}) {
     "very", "so", "too", "now", "then", "again", "maybe", "baby", "honey",
     "sweetie", "dude", "man", "bro", "choom", "friend", "buddy", "chief",
     "boss", "pal", "twin", "bitch", "sure", "right", "wrong", "alive", "dead",
-    "chole", "all", "one", "it", "this", "that",
+    "chole", "johnny", "silverhand", "all", "one", "it", "this", "that",
   ]);
 
   /**
@@ -476,10 +488,17 @@ export function createConversation(config = {}) {
   }
 
   /** Short background truth about the person talking to you (or ""). */
-  function buildKnownFacts(personId) {    const model = daemon.memory.retrieveSocial(personId);
+  function buildKnownFacts(personId) {
+    const model = daemon.memory.retrieveSocial(personId);
     if (!model) return "";
+    // Souls may name their listener up front (Johnny → V). A learned claim
+    // always wins; the soul-given name is the fallback, never an invention.
+    const name = model.name || daemon.phrase.voice?.listener || null;
     const lines = [];
-    if (model.name) lines.push(`their name: ${model.name} (use it sometimes — never Chole, never anyone else's)`);
+    if (name) {
+      const A = daemon.phrase.voice?.name || "stranger";
+      lines.push(`their name: ${name} (use it sometimes — never ${A}, never anyone else's)`);
+    }
     const talks = model.sharedHistory.length;
     if (talks) {
       lines.push(
@@ -489,7 +508,8 @@ export function createConversation(config = {}) {
     return lines.join("\n");
   }
 
-  function guessValence(raw) {    const lower = raw.toLowerCase();
+  function guessValence(raw) {
+    const lower = raw.toLowerCase();
     // Leave/breakup vocabulary scores sad: without it a breakup reads as
     // `neutral` and trust/chemistry never move. Only you-directed forms —
     // bare "leaving"/"goodbye" stays neutral ("leaving for work, back soon"
@@ -576,7 +596,7 @@ export function createConversation(config = {}) {
       ).join("\n"),
       ``,
       `# OUTPUT CONTRACT`,
-      OUTPUT_CONTRACT,
+      buildContract(),
     ].join("\n");
 
     const memoryBlock = p.memories.length
@@ -695,8 +715,9 @@ export function createConversation(config = {}) {
     if (reason === "parenthetical note, not speech") {
       return "you wrote a note in brackets — delete the brackets and say the line itself";
     }
-    if (reason === "addresses them as Chole") {
-      return "you called THEM Chole — never use your own name for them; Chole is YOUR name, not theirs" + (ctx.knownName ? ` (they are ${ctx.knownName} — use that instead, but never as an opener)` : "");
+    if (reason === "used your name for them") {
+      const A = ctx.personaName || daemon.phrase.voice?.name || "stranger";
+      return `you called THEM ${A} — never use your own name for them; ${A} is YOUR name, not theirs` + (ctx.knownName ? ` (they are ${ctx.knownName} — use that instead, but never as an opener)` : "");
     }
     if (reason === "grunt, not speech") {
       return "that was a grunt, not a reply — answer in one full sentence in your own words" + (ctx.knownName ? `, using their name (${ctx.knownName}) if it lands` : "") + ", then stop";

@@ -6,7 +6,8 @@
  *
  * Format:
  *   ---
- *   name: Chole
+ *   name: Johnny Silverhand
+ *   listener: V
  *   speech.dialect: night-city
  *   speech.slang: 0.75
  *   speech.formality: 0.25
@@ -23,6 +24,7 @@ import { join } from "node:path";
 
 export const VOICE_DEFAULTS = {
   name: "stranger",
+  listener: null,   // who the persona talks to ("V" for Johnny) — null means unnamed
   dialect: "night-city",
   slang: 0.5,
   formality: 0.3,
@@ -83,6 +85,7 @@ export function parseSoulText(raw, source = "inline") {
       let val = m[2].trim();
       const num = Number(val);
       if (key === "name") voice.name = val;
+      else if (key === "listener") voice.listener = val || null;
       else if (key === "speech.dialect") voice.dialect = val;
       else if (key === "speech.slang") voice.slang = clamp01(num);
       else if (key === "speech.formality") voice.formality = clamp01(num);

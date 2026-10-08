@@ -565,10 +565,9 @@ function framesForAct(act, t) {
   ]);
 
   /**
-   * The persona's own name must never come back as a subject. "hey chole" is
-   * the listener greeting her; carrying "chole" back would put her own name in
-   * front of the model as a word to weave in — so the prompt would instruct
-   * her to say Chole while the contract forbids it.
+   * The persona's own name must never come back as a subject. A greeting like
+   * "hey johnny" is the listener hailing them; carrying that name back would
+   * put their own name in front of the model as a word to weave in.
    */
   function personaNames() {
     const full = String(voice?.name || "").toLowerCase().trim();

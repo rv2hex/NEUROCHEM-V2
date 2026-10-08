@@ -139,7 +139,7 @@ export function validateReply(text, ctx = {}) {
   // A skeleton frame name leaked ("ack_followup \"...\") — no spoken line
   // opens with snake_case.
   if (/^[a-z]+_[a-z]+/i.test(check)) hard.push("frame label, not speech");
-  // The model refusing to role-play is a system message, not Chole talking.
+  // The model refusing to role-play is a system message, not the persona talking.
   if (/^(i'?m sorry,? but i |i can'?t (help|assist|fulfill|provide|comply)|i cannot|i'?m unable to)/i.test(check)) {
     hard.push("refusal, not speech");
   }
@@ -157,16 +157,27 @@ export function validateReply(text, ctx = {}) {
   const unwrapped = stripWrappingQuotes(check);
   if (unwrapped !== check && !/["“”]/.test(unwrapped)) hard.push("quoted, not speech");
 
-  // The agent IS Chole; the listener is not. Only the ADDRESSING forms are
-  // wrong — "I'm Chole." and "Chole here —" are correct self-reference.
-  const CHOLE_VOCATIVE = [
-    /^chole\s*[,;:]/i,                                           // "Chole, …"
-    /[,;:]\s*chole\b/i,                                          // "… , Chole"
-    /\byou('re| are)\b[^.!?]{0,60}\bchole\b/i,                   // "You're doing great, Chole."
-    /\b(hey|hi|yo|hello|sup)\s+chole\b/i,                        // "Hey Chole, …" — anywhere
-  ];
-  if (CHOLE_VOCATIVE.some((re) => re.test(check))) {
-    hard.push("addresses them as Chole");
+  // The agent is whoever the soul says; the listener is not them. Only the
+  // ADDRESSING forms are wrong — "I'm Johnny." is correct self-reference.
+  // Patterns build from ctx.persona (parts ≥3 chars, escaped); without one
+  // the legacy Chole shapes apply, so bare validateReply calls behave as before.
+  const personaParts = String(ctx.persona || "chole")
+    .toLowerCase()
+    .split(/\s+/)
+    .map((w) => w.replace(/[^a-z0-9]/g, ""))
+    .filter((w) => w.length >= 3);
+  const VOCATIVE = [];
+  for (const p of personaParts) {
+    const e = p.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    VOCATIVE.push(
+      new RegExp(`^${e}\\s*[,;:]`, "i"),
+      new RegExp(`[,;:]\\s*${e}\\b`, "i"),
+      new RegExp(`\\byou('re| are)\\b[^.!?]{0,60}\\b${e}\\b`, "i"),
+      new RegExp(`\\b(hey|hi|yo|hello|sup)\\s+${e}\\b`, "i")
+    );
+  }
+  if (VOCATIVE.some((re) => re.test(check))) {
+    hard.push("used your name for them");
   }
   // Two paragraphs in a one-breath contract: the model formatted rather than
   // spoke. (A single newline is a wrap artefact and is left alone.)

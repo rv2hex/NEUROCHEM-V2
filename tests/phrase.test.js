@@ -76,7 +76,7 @@ test("renderSkeleton turns a skeleton into text (offline fallback only)", () => 
 test("SOUL.md loads: voice profile carries name, dialect, speech traits", () => {
   const pe = makeEngine();
   const v = pe.voice;
-  assert.equal(v.name, "Chole");
+  assert.equal(v.name, "Johnny Silverhand");
   assert.equal(v.dialect, "night-city");
   assert.ok(Math.abs(v.slang - 0.75) < 0.01);
   assert.ok(Math.abs(v.formality - 0.25) < 0.01);
@@ -119,7 +119,7 @@ I run clean operations for Arasaka and I don't raise my voice.`, "inline");
 
 test("setSoul reloads accent from a different SOUL file", async () => {
   const pe = makeEngine();
-  assert.equal(pe.voice.name, "Chole");
+  assert.equal(pe.voice.name, "Johnny Silverhand");
 
   // Write a temp alternate soul
   const { writeFileSync, mkdtempSync } = await import("node:fs");

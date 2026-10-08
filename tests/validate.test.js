@@ -68,21 +68,21 @@ test("stripWrappingQuotes: unwraps one full pair and nothing else", () => {
 
 // ==================== ROLE CONFUSION ====================
 
-test("validate: Chole is the agent, never the listener", () => {
-  has(reject("You're doing great, Chole."), "addresses them as Chole");
-  has(reject("Hey Chole, what's good?"), "addresses them as Chole");
-  has(reject("Chole, how was the district?"), "addresses them as Chole");
-  has(reject("damn, Chole, that's rough"), "addresses them as Chole");
-  has(reject("Right, Chole — we both know how that went."), "addresses them as Chole");
+test("validate: the persona name is the agent's, never the listener's", () => {
+  has(reject("You're doing great, Chole."), "used your name for them");
+  has(reject("Hey Chole, what's good?"), "used your name for them");
+  has(reject("Chole, how was the district?"), "used your name for them");
+  has(reject("damn, Chole, that's rough"), "used your name for them");
+  has(reject("Right, Chole — we both know how that went."), "used your name for them");
   // not at the opener, and not comma-joined either — the greeting form alone
   // is enough, wherever it lands in the reply
   has(
     reject("Damn, that's good news!\n\nHey Chole, tell me more about the gig."),
-    "addresses them as Chole"
+    "used your name for them"
   );
 });
 
-test("validate: correct self-reference to Chole stays legal", () => {
+test("validate: correct self-reference stays legal", () => {
   accept("I'm Chole. What brings you out here?");
   accept("Chole here — what do you need?");
   accept("Chole would say the district's done for.", { userText: "what do you think" });
@@ -203,4 +203,20 @@ test("validate: empty and over-long replies are refused", () => {
   const v = validateReply(long, {});
   assert.equal(v.ok, false, "over-long must fail");
   assert.ok(v.hard.some((h) => h.startsWith("too long")), JSON.stringify(v.hard));
+});
+
+test("validate: vocatives follow ctx.persona, defaulting to legacy Chole", () => {
+  const johnny = { persona: "Johnny Silverhand" };
+  const v = validateReply("Hey Johnny, what's good?", johnny);
+  assert.equal(v.ok, false);
+  assert.ok(v.hard.includes("used your name for them"), JSON.stringify(v.hard));
+  // Full-name and second-part forms too.
+  assert.ok(validateReply("Yo Silverhand, listen.", johnny).hard.includes("used your name for them"));
+  assert.ok(validateReply("Right, Johnny Silverhand — we both know.", johnny).hard.includes("used your name for them"));
+  // ...while Chole stops being special under a Johnny persona.
+  assert.ok(validateReply("Hey Chole, what's good?", johnny).ok, "not our name anymore");
+  // And the listener's own given name is never flagged.
+  assert.ok(validateReply("Hey V, listen up.", johnny).ok, "V is theirs to hear");
+  // Self-reference stays legal under any persona.
+  assert.ok(validateReply("I'm Johnny. What brings you out here?", johnny).ok);
 });

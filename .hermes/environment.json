@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "recipe": {
+    "name": "Node.js app",
+    "kind": "node",
+    "bootstrap": [
+      "npm install"
+    ],
+    "build": [],
+    "test": [
+      "npm run test"
+    ],
+    "start": "npm run dev",
+    "port": null,
+    "readinessPath": "/",
+    "evidence": [
+      "Detected package.json",
+      "Scripts: dev, ollama, soul, daemon, test"
+    ]
+  },
+  "updatedAt": "2026-10-08T15:35:31.217869+00:00"
+}

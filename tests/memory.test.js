@@ -134,13 +134,13 @@ test("skeleton: the carry tag reaches EVERY frame, not just the assert family", 
 });
 
 test("skeleton: the persona's own name is never a remembered subject", () => {
-  // "hey chole" is the listener greeting her. Nothing survives once "chole"
+  // "hey johnny" is the listener greeting him. Nothing survives once "johnny"
   // is banned and "hey" is filler, so there must be NO carry tag at all —
   // otherwise the prompt would tell the model to weave in the very word the
   // contract forbids it from saying.
   const greeted = makePhrase().generateCandidates(
     { speechAct: "greet", content: { text: "", valence: 0 } },
-    { seed: 1, remembered: "hey chole" }
+    { seed: 1, remembered: "hey johnny" }
   );
   assert.ok(greeted.length >= 1, "greeting still produces a skeleton");
   for (const c of greeted) {
@@ -154,7 +154,7 @@ test("skeleton: the persona's own name is never a remembered subject", () => {
   // real subject standing.
   const embedded = makePhrase().generateCandidates(
     { speechAct: "assert", content: { text: "", valence: 0 } },
-    { seed: 1, remembered: "i saw chole at militech" }
+    { seed: 1, remembered: "i saw johnny at militech" }
   );
   assert.deepEqual(
     [...new Set(embedded.map((c) => c.carry))],

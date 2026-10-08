@@ -18,7 +18,7 @@
 import readline from "node:readline";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
-import { existsSync, mkdirSync, copyFileSync } from "node:fs";
+import { existsSync, mkdirSync, copyFileSync, readFileSync } from "node:fs";
 import { createConversation } from "../interface/converse.js";
 import { chat as ollamaChat, ollamaUp, OLLAMA_DEFAULTS } from "../engine/ollama.js";
 import { chat as nvidiaChat, nvidiaUp, NVIDIA_DEFAULTS } from "../engine/nvidia.js";
@@ -38,10 +38,23 @@ const offline = args.includes("--offline") || useDemo;
 function liveSoulPath() {
   if (process.env.SOUL_PATH) return process.env.SOUL_PATH;
   const live = join(ROOT, ".sessions", "soul.live.md");
+  const base = join(ROOT, "SOUL.md");
+  const soulName = (file) => {
+    try {
+      const m = readFileSync(file, "utf8").match(/^name:\s*(.+)$/m);
+      return m ? m[1].trim() : null;
+    } catch {
+      return null;
+    }
+  };
   if (!existsSync(live)) {
     mkdirSync(dirname(live), { recursive: true });
-    const base = join(ROOT, "SOUL.md");
     if (existsSync(base)) copyFileSync(base, live);
+  } else if (existsSync(base) && soulName(live) && soulName(base) && soulName(live) !== soulName(base)) {
+    // Shipped persona changed under a lived soul (Chole → Johnny): keep the
+    // old life aside and re-seed, rather than running Johnny on her memories.
+    copyFileSync(live, join(ROOT, ".sessions", "soul.previous.md"));
+    copyFileSync(base, live);
   }
   return live;
 }

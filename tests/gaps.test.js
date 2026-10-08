@@ -254,8 +254,8 @@ test("gaps edge: counter-ask only applies to a question asked", () => {
 });
 
 test("gaps edge: Chole vocatives fail, self-reference passes", () => {
-  has(reject("Right, Chole — we both know."), "addresses them as Chole");
-  has(reject("damn, Chole, that's rough"), "addresses them as Chole");
+  has(reject("Right, Chole — we both know."), "used your name for them");
+  has(reject("damn, Chole, that's rough"), "used your name for them");
   accept("Chole here — what do you need?");
   accept("Call me whatever you like, I answer anyway.");
 });
@@ -464,7 +464,7 @@ test("gaps integration: every repair rule produces actionable guidance", async (
     ["hello there", 'ack_followup "damn words here"', "drop the label"],
     ["hello there", '"Same as always."', "no quotes"],
     ["hello there", "(say it in your accent)", "brackets"],
-    ["hello there", "Hey Chole, what's good?", "never use your own name"],
+    ["hello there", "Hey Johnny, what's good?", "never use your own name"],
     ["what time is it?", "Is that so?", "answer it plainly"],
     ["hello there", "Acknowledge their line and ask back.", "speak plainly"],
     ["hello there", "**solid** work", "fix: markdown"],
