@@ -8,6 +8,10 @@ A neurocomputational conversation agent: 12 neurotransmitter systems, an ATP
 energy economy, and 4-mode memory drive a skeleton-based phrase engine, with
 an LLM filling the frames into speech. Deterministic core, zero dependencies.
 
+# Goal:
+
+ Determine if NEUROCHEM-V2's 4-mode memory architecture can sustain model cognition as a standalone life-force — without simulating or replacing human interaction roles.
+
 ## Quick start
 
 ```bash
